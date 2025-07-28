@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import './projects.scss'
+import noImage from '@assets/images/no-image.jpeg'
 
 const ProjectCard = ({ project }) => {
   const cardVariants = {
@@ -44,7 +45,7 @@ const ProjectCard = ({ project }) => {
         {project.image ? (
           <img src={project.image} alt={project.title} loading="lazy" />
         ) : (
-          <div className="image-placeholder">{project.title.charAt(0)}</div>
+          <img src={noImage} alt="no-image" loading="lazy" />
         )}
       </div>
 

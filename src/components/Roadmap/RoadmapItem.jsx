@@ -12,7 +12,7 @@ const getIcon = (title) => {
 const statuses = {
   progress: 'В процессе',
   planned: 'Запланировано',
-  future: 'Будущее'
+  future: 'В будущем'
 }
 
 export default function RoadmapItem({ item }) {
