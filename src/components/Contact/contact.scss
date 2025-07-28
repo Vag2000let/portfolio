@@ -13,6 +13,8 @@
 }
 
 .contact-form {
+  position: relative;
+
   .form-group {
     margin-bottom: spacer(3);
 
@@ -72,6 +74,19 @@
     &:hover {
       background: color.adjust($primary, $lightness: 10%);
     }
+
+    &:disabled {
+      background: $gray;
+      cursor: not-allowed;
+    }
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
   }
 }
 

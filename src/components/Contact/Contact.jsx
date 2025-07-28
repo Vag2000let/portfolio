@@ -1,7 +1,16 @@
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
+import ReCAPTCHA from 'react-google-recaptcha'
+import emailjs from '@emailjs/browser'
 import { FaGithub, FaLinkedin, FaTelegram, FaEnvelope } from 'react-icons/fa'
 import './contact.scss'
+import {
+  EMAIL_JS_PUBLIC_KEY,
+  EMAIL_JS_SERVICE_ID,
+  EMAIL_JS_TEMPLATE_ID,
+  RECAPTCHA_SITE_KEY
+} from './helpers'
 
 export default function Contact() {
   const {
@@ -11,10 +20,44 @@ export default function Contact() {
     reset
   } = useForm()
 
-  const onSubmit = (data) => {
-    console.log('Form submitted:', data)
-    // Здесь можно добавить отправку формы (например через EmailJS)
-    reset()
+  const recaptchaRef = useRef(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [recaptchaError, setRecaptchaError] = useState('')
+
+  const onSubmit = async (data) => {
+    if (data.honeypot) return
+
+    setRecaptchaError('')
+    const recaptchaValue = recaptchaRef.current.getValue()
+
+    if (!recaptchaValue) {
+      setRecaptchaError('Пожалуйста, подтвердите, что вы не робот')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await emailjs.send(
+        EMAIL_JS_SERVICE_ID,
+        EMAIL_JS_TEMPLATE_ID,
+        {
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          'g-recaptcha-response': recaptchaValue
+        },
+        EMAIL_JS_PUBLIC_KEY
+      )
+
+      alert('Сообщение успешно отправлено!')
+      reset()
+      recaptchaRef.current.reset()
+    } catch (error) {
+      alert('Ошибка при отправке: ' + error.text)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const socialLinks = [
@@ -43,6 +86,17 @@ export default function Contact() {
             transition={{ delay: 0.2 }}
             viewport={{ once: true }}
           >
+            <div className="honeypot">
+              <label htmlFor="honeypot">Не заполняйте это поле</label>
+              <input
+                id="honeypot"
+                type="text"
+                {...register('honeypot')}
+                tabIndex="-1"
+                autoComplete="off"
+              />
+            </div>
+
             <div className="form-group">
               <label htmlFor="name">Имя</label>
               <input
@@ -88,13 +142,23 @@ export default function Contact() {
               {errors.message && <span className="error-message">{errors.message.message}</span>}
             </div>
 
+            <div className="form-group">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={RECAPTCHA_SITE_KEY}
+                onChange={() => setRecaptchaError('')}
+              />
+              {recaptchaError && <span className="error-message">{recaptchaError}</span>}
+            </div>
+
             <motion.button
               type="submit"
               className="submit-btn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              disabled={isSubmitting}
             >
-              Отправить сообщение
+              {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
             </motion.button>
           </motion.form>
 
