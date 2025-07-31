@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/portfolio/assets/favicon-BSQxLSTG.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vagan's portfolio</title>
+    <script type="module" crossorigin src="/portfolio/assets/index-HQjnKaOT.js"></script>
+    <link rel="modulepreload" crossorigin href="/portfolio/assets/vendor-DvLs23QX.js">
+    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-Ddhri9UR.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      (function () {
+        const redirect = sessionStorage.redirect
+        delete sessionStorage.redirect
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect)
+        }
+      })()
+    </script>
+  </body>
+</html>
