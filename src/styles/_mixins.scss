@@ -78,6 +78,13 @@
   }
 }
 
+@mixin label {
+  display: block;
+  margin-bottom: spacer(1);
+  font-weight: 500;
+  color: var(--text-color);
+}
+
 // Media queries
 @mixin respond($breakpoint) {
   @if $breakpoint == sm {

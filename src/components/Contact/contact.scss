@@ -1,8 +1,8 @@
 @use 'sass:color';
 
 .contact-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: spacer(4);
   margin-top: spacer(5);
 
@@ -14,19 +14,23 @@
 
 .contact-form {
   position: relative;
+  @include label;
+
+  .form-recaptcha {
+    min-height: 110px;
+
+    .error-message {
+      display: block;
+      color: #ff4444;
+      font-size: 0.9rem;
+    }
+  }
 
   .form-group {
-    margin-bottom: spacer(3);
+    margin-bottom: $spacer-unit;
+    min-height: 100px;
 
-    label {
-      display: block;
-      margin-bottom: spacer(5);
-      font-weight: 500;
-      color: $text-dark;
-    }
-
-    input,
-    textarea {
+    input {
       width: 100%;
       padding: $spacer-unit;
       border: 1px solid $gray;
@@ -46,57 +50,74 @@
       }
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
     .error-message {
       display: block;
-      margin-top: spacer(5);
       color: #ff4444;
       font-size: 0.9rem;
     }
   }
 
-  .submit-btn {
-    background: $primary;
-    color: white;
-    border: none;
-    padding: $spacer-unit spacer(3);
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 'background 0.3s ease';
-    width: 100%;
+  .form-textarea {
+    height: 200px;
 
-    &:hover {
-      background: color.adjust($primary, $lightness: 10%);
+    textarea {
+      width: 100%;
+      padding: $spacer-unit;
+      border: 1px solid $gray;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba($primary, 0.2);
+      }
+
+      &.error {
+        border-color: #ff4444;
+      }
     }
 
-    &:disabled {
-      background: $gray;
-      cursor: not-allowed;
+    .error-message {
+      display: block;
+      color: #ff4444;
+      font-size: 0.9rem;
     }
   }
 
-  .honeypot {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
+  .form-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: spacer(3);
+
+    button {
+      width: 150px;
+    }
+
+    .cancel-btn {
+      background: $gray;
+      color: $text-light;
+      border: none;
+      padding: $spacer-unit spacer(3);
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s ease;
+
+      &:hover {
+        background: color.adjust($gray, $lightness: 10%);
+      }
+    }
   }
 }
 
 .contact-info {
-  h3 {
-    margin-top: 0;
-    margin-bottom: spacer(3);
-    color: $primary;
-  }
-
+  text-align: center;
   p {
     margin-bottom: spacer(5);
     line-height: 1.6;
@@ -132,4 +153,69 @@
   .social-icon {
     font-size: 1.2rem;
   }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--bg-body);
+  padding: spacer(4);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+
+  @media (max-width: breakpoint(sm)) {
+    width: 95%;
+    padding: spacer(3);
+  }
+}
+
+.contact-form-block {
+  display: flex;
+  padding: $spacer-unit;
+}
+
+.submit-btn {
+  background: $primary;
+  color: $text-light;
+  border: none;
+  padding: $spacer-unit spacer(3);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+
+  &:hover {
+    background: color.adjust($primary, $lightness: 10%);
+  }
+
+  &:disabled {
+    background: $gray;
+    cursor: not-allowed;
+  }
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }
