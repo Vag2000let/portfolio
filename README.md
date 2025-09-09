@@ -13,11 +13,8 @@
 
 - React Icons
 - React Hook Form
-- GitHub Pages (деплой)
 
 ## 🖥️ Демо
 
 Проект доступен по адресу:  
-[https://yourusername.github.io/my-portfolio](https://yourusername.github.io/my-portfolio)
-
-## 🛠 Установка и запуск
+[https://vag2000let.github.io/portfolio/]

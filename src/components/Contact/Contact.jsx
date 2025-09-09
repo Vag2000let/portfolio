@@ -10,7 +10,7 @@ export default function Contact() {
   const socialLinks = [
     { icon: <FaGithub />, url: 'https://github.com/vag2000let', name: 'GitHub' },
     { icon: <FaLinkedin />, url: 'https://linkedin.com/in/vagan-p-5979b9377', name: 'LinkedIn' },
-    { icon: <FaTelegram />, url: 'https://t.me/yourusername', name: 'Telegram' },
+    { icon: <FaTelegram />, url: 'https://t.me/vagan_vip', name: 'Telegram' },
     { icon: <FaEnvelope />, url: 'mailto:vagan2000let@gmail.com', name: 'Email' }
   ]
 
